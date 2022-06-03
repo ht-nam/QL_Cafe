@@ -140,5 +140,25 @@ namespace QL_Cafe
         {
             ID = dataGridView1.SelectedCells[0].OwningRow.Cells[0].Value.ToString();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (dataGridView2.Rows.Count == 0)
+            {
+                MessageBox.Show("Phải có sản phẩm mới được xuất hóa đơn");
+            }
+            else
+            {
+                XuatHoaDon xhd = new XuatHoaDon(dataGridView2, selectedSP);
+                xhd.ShowDialog();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormDangNhap formDangNhap = new FormDangNhap();
+            formDangNhap.Show();
+        }
     }
 }

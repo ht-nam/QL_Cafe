@@ -278,6 +278,11 @@ namespace QL_Cafe
             textBox10.Text = dataGridView2.SelectedCells[0].OwningRow.Cells[3].Value.ToString();
         }
 
-        
+        private void button7_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormDangNhap formDangNhap = new FormDangNhap();
+            formDangNhap.Show();
+        }
     }
 }
