@@ -13,9 +13,9 @@ namespace QL_Cafe
 {
     public partial class FormDangNhap : Form
     {
+        public static string passingText;
         private DataTable NhanViens = new DataTable();
         private bool haveNV = false;
-
         public FormDangNhap()
         {
             InitializeComponent();
@@ -59,6 +59,7 @@ namespace QL_Cafe
                 FormQuanLy.Show();
             } else if (haveNV == true)
             {
+                passingText = textBox1.Text;
                 bool check = false;
                 foreach (DataRow row in NhanViens.Rows)
                 {

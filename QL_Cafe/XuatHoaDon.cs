@@ -14,6 +14,7 @@ namespace QL_Cafe
     {
         private DataTable dt = new DataTable();
         private DataTable NhanViens = new DataTable();
+        FormDangNhap fdn = new FormDangNhap();
         public XuatHoaDon(DataGridView dataGridView, DataTable dataTable)
         {
             InitializeComponent();
@@ -22,12 +23,9 @@ namespace QL_Cafe
             dt = dataTable;
             dataGridView1.Columns[0].Visible = false;
             dataGridView1.DataSource = dt;
-            foreach (DataRow row in NhanViens.Rows)
-            {
-                tenNV.Text = row["Username"].ToString();
-            }
             label3.Text = label3.Text + totalAmountOfMoney();
         }
+
         public void CreateNVtable()
         {
             if (System.IO.File.Exists("NhanViens.json"))
@@ -48,10 +46,15 @@ namespace QL_Cafe
             int money = 0;
             foreach (DataRow row in dt.Rows)
             {
-                money = Convert.ToInt32(row["QTT"].ToString()) * Convert.ToInt32(row["Price"].ToString());
+                money += Convert.ToInt32(row["QTT"].ToString()) * Convert.ToInt32(row["Price"].ToString());
             }
 
             return money.ToString();
+        }
+
+        private void XuatHoaDon_Load(object sender, EventArgs e)
+        {
+            tenNV.Text = FormDangNhap.passingText;
         }
     }
 }

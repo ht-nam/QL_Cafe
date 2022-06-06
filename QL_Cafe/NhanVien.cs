@@ -138,19 +138,23 @@ namespace QL_Cafe
 
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            ID = dataGridView1.SelectedCells[0].OwningRow.Cells[0].Value.ToString();
+            ID = dataGridView2.SelectedCells[0].OwningRow.Cells[0].Value.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             if (dataGridView2.Rows.Count == 0)
             {
-                MessageBox.Show("Phải có sản phẩm mới được xuất hóa đơn");
+                MessageBox.Show("Chưa có sản phẩm nào trong hóa đơn");
             }
             else
             {
-                XuatHoaDon xhd = new XuatHoaDon(dataGridView2, selectedSP);
-                xhd.ShowDialog();
+                DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý xuất hóa đơn", "Thông báo", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    XuatHoaDon xhd = new XuatHoaDon(dataGridView2, selectedSP);
+                    xhd.ShowDialog();
+                }
             }
         }
 
