@@ -16,6 +16,7 @@ namespace QL_Cafe
         private DataTable NhanViens = new DataTable();
         private DataTable SanPhams = new DataTable();
         private DataTable DoanhThu = new DataTable();
+        NhanVien nv = new NhanVien();
         private int tongDoanhThu = 0;
 
         public QuanLy()
@@ -282,6 +283,23 @@ namespace QL_Cafe
         {
             this.Hide();
             FormDangNhap formDangNhap = new FormDangNhap();
+            formDangNhap.Closed += (s, args) => this.Close();
+            formDangNhap.Show();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormDangNhap formDangNhap = new FormDangNhap();
+            formDangNhap.Closed += (s, args) => this.Close();
+            formDangNhap.Show();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormDangNhap formDangNhap = new FormDangNhap();
+            formDangNhap.Closed += (s, args) => this.Close();
             formDangNhap.Show();
         }
     }

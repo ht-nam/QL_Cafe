@@ -12,6 +12,7 @@ namespace QL_Cafe
 {
     public partial class NhanVien : Form
     {
+        public static bool button1WasClicked = false;
         private DataTable sanPham = new DataTable();
         private DataTable selectedSP = new DataTable();
         private string ID = "";
@@ -143,6 +144,7 @@ namespace QL_Cafe
 
         private void button1_Click(object sender, EventArgs e)
         {
+            button1WasClicked = true;
             if (dataGridView2.Rows.Count == 0)
             {
                 MessageBox.Show("Chưa có sản phẩm nào trong hóa đơn");
@@ -152,6 +154,11 @@ namespace QL_Cafe
                 DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý xuất hóa đơn", "Thông báo", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
+                    foreach(DataRow row in sanPham.Rows)
+                    {
+                        int quantity = Convert.ToInt32(row["Quantity"]) - 5;
+
+                    }
                     XuatHoaDon xhd = new XuatHoaDon(dataGridView2, selectedSP);
                     xhd.ShowDialog();
                 }
@@ -162,6 +169,7 @@ namespace QL_Cafe
         {
             this.Hide();
             FormDangNhap formDangNhap = new FormDangNhap();
+            formDangNhap.Closed += (s, args) => this.Close();
             formDangNhap.Show();
         }
     }

@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -50,6 +51,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button8 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -68,7 +70,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.button7 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -118,6 +120,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "QL Nhân Viên";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(0, 0);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 1;
+            this.button7.Text = "Trở về";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // label9
             // 
@@ -308,6 +320,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button8);
             this.tabPage2.Controls.Add(this.label8);
             this.tabPage2.Controls.Add(this.textBox7);
             this.tabPage2.Controls.Add(this.label11);
@@ -328,6 +341,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "QL Sản Phẩm";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(0, 0);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 23);
+            this.button8.TabIndex = 30;
+            this.button8.Text = "Trở về";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // label8
             // 
@@ -438,7 +461,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(8, 14);
+            this.label14.Location = new System.Drawing.Point(203, 14);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(160, 20);
             this.label14.TabIndex = 18;
@@ -459,6 +482,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.button9);
             this.tabPage3.Controls.Add(this.label15);
             this.tabPage3.Controls.Add(this.label10);
             this.tabPage3.Controls.Add(this.label18);
@@ -495,7 +519,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(8, 14);
+            this.label18.Location = new System.Drawing.Point(245, 14);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(84, 20);
             this.label18.TabIndex = 31;
@@ -513,15 +537,15 @@
             this.dataGridView3.Size = new System.Drawing.Size(550, 377);
             this.dataGridView3.TabIndex = 30;
             // 
-            // button7
+            // button9
             // 
-            this.button7.Location = new System.Drawing.Point(0, 0);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 1;
-            this.button7.Text = "Trở về";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button9.Location = new System.Drawing.Point(0, 0);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(75, 23);
+            this.button9.TabIndex = 34;
+            this.button9.Text = "Trở về";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // QuanLy
             // 
@@ -589,5 +613,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
     }
 }

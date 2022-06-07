@@ -18,27 +18,11 @@ namespace QL_Cafe
         public XuatHoaDon(DataGridView dataGridView, DataTable dataTable)
         {
             InitializeComponent();
-            CreateNVtable();
             dataGridView1.DataSource = dataGridView.DataSource;
             dt = dataTable;
             dataGridView1.Columns[0].Visible = false;
             dataGridView1.DataSource = dt;
             label3.Text = label3.Text + totalAmountOfMoney();
-        }
-
-        public void CreateNVtable()
-        {
-            if (System.IO.File.Exists("NhanViens.json"))
-            {
-                System.IO.StreamReader reader = new System.IO.StreamReader("NhanViens.json");
-                string jsonStr = reader.ReadToEnd();
-                reader.Close();
-
-                if (jsonStr != "")
-                {
-                    NhanViens = JsonConvert.DeserializeObject<DataTable>(jsonStr);
-                }
-            }
         }
 
         public string totalAmountOfMoney()
@@ -55,6 +39,11 @@ namespace QL_Cafe
         private void XuatHoaDon_Load(object sender, EventArgs e)
         {
             tenNV.Text = FormDangNhap.passingText;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
         }
     }
 }
