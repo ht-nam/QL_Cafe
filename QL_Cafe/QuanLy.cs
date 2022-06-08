@@ -72,7 +72,6 @@ namespace QL_Cafe
                 SanPhams.Columns.Add("Name", typeof(string));
                 SanPhams.Columns.Add("Price", typeof(string));
                 SanPhams.Columns.Add("Quantity", typeof(int));
-                SanPhams.Columns.Add("Sold", typeof(int));
             }
         }
 
@@ -81,14 +80,14 @@ namespace QL_Cafe
             DoanhThu.Columns.Add("ID", typeof(string));
             DoanhThu.Columns.Add("Name", typeof(string));
             DoanhThu.Columns.Add("Price", typeof(string));
-            DoanhThu.Columns.Add("Sold", typeof(int));
+            //DoanhThu.Columns.Add("Sold", typeof(int));
             DoanhThu.Columns.Add("Total", typeof(int));
 
             foreach (DataRow row in SanPhams.Rows)
             {
-                int dtsp = Convert.ToInt32(row["Price"].ToString()) * Convert.ToInt32(row["Sold"].ToString());
-                DoanhThu.Rows.Add(row["ID"], row["Name"], row["Price"], row["Sold"], dtsp);
-                tongDoanhThu += dtsp;
+                //int dtsp = Convert.ToInt32(row["Price"].ToString()) * Convert.ToInt32(row["Sold"].ToString());
+                //DoanhThu.Rows.Add(row["ID"], row["Name"], row["Price"], row["Sold"], dtsp);
+                //tongDoanhThu += dtsp;
             }
             dataGridView3.DataSource = DoanhThu;
             label15.Text = tongDoanhThu + "đ";
@@ -220,7 +219,6 @@ namespace QL_Cafe
                     dataRow["Name"] =  textBox8.Text;
                     dataRow["Price"] = textBox9.Text;
                     dataRow["Quantity"] = textBox10.Text;
-                    dataRow["Sold"] = 0;
 
                     MessageBox.Show("Sửa thông tin sản phẩm thành công");
                     check = true;

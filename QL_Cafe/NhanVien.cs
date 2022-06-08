@@ -15,12 +15,14 @@ namespace QL_Cafe
         public static bool button1WasClicked = false;
         private DataTable sanPham = new DataTable();
         private DataTable selectedSP = new DataTable();
+        //private DataTable hoaDon
         private string ID = "";
         public NhanVien()
         {
             InitializeComponent();
             CreateSPtable();
             dataGridView1.DataSource = sanPham;
+            dataGridView1.Columns[0].Visible = false;
             dataGridView2.DataSource = selectedSP;
 
             dataGridView2.AutoGenerateColumns = false;
@@ -154,13 +156,11 @@ namespace QL_Cafe
                 DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý xuất hóa đơn", "Thông báo", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    foreach(DataRow row in sanPham.Rows)
-                    {
-                        int quantity = Convert.ToInt32(row["Quantity"]) - 5;
-
-                    }
                     XuatHoaDon xhd = new XuatHoaDon(dataGridView2, selectedSP);
                     xhd.ShowDialog();
+                    selectedSP.Rows.Clear();
+                    string jsonStr = JsonConvert.SerializeObject(sanPham);
+                    System.IO.File.WriteAllText("SanPhams.json", jsonStr);
                 }
             }
         }
