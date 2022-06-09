@@ -27,6 +27,9 @@ namespace QL_Cafe
             CreateDTTable();
             dataGridView1.DataSource = NhanViens;
             dataGridView2.DataSource = SanPhams;
+            dataGridView3.DataSource = DoanhThu;
+            setDoanhThu();
+            
         }
 
         public void CreateNVtable()
@@ -77,20 +80,24 @@ namespace QL_Cafe
 
         public void CreateDTTable()
         {
-            DoanhThu.Columns.Add("ID", typeof(string));
-            DoanhThu.Columns.Add("Name", typeof(string));
-            DoanhThu.Columns.Add("Price", typeof(string));
-            //DoanhThu.Columns.Add("Sold", typeof(int));
-            DoanhThu.Columns.Add("Total", typeof(int));
-
-            foreach (DataRow row in SanPhams.Rows)
+            if (System.IO.File.Exists("HoaDons.json"))
             {
-                //int dtsp = Convert.ToInt32(row["Price"].ToString()) * Convert.ToInt32(row["Sold"].ToString());
-                //DoanhThu.Rows.Add(row["ID"], row["Name"], row["Price"], row["Sold"], dtsp);
-                //tongDoanhThu += dtsp;
+                System.IO.StreamReader reader = new System.IO.StreamReader("HoaDons.json");
+                string jsonStr = reader.ReadToEnd();
+                reader.Close();
+
+                if (jsonStr != "")
+                {
+                    DoanhThu = JsonConvert.DeserializeObject<DataTable>(jsonStr);
+                }
             }
-            dataGridView3.DataSource = DoanhThu;
-            label15.Text = tongDoanhThu + "đ";
+            if (SanPhams.Columns.Count == 0)
+            {
+                DoanhThu.Columns.Add("ID", typeof(string));
+                DoanhThu.Columns.Add("Name", typeof(string));
+                DoanhThu.Columns.Add("Price", typeof(string));
+                DoanhThu.Columns.Add("Quantity", typeof(int));
+            }
         }
 
         private void saveNVJson()
@@ -108,25 +115,33 @@ namespace QL_Cafe
         //Thêm nhân viên
         private void button1_Click(object sender, EventArgs e)
         {
-            bool check = false;
-            foreach (DataRow dataRow in NhanViens.Rows)
+            if (textBox1.Text == "" || textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text  == "" || textBox6.Text == "")
             {
-                if (dataRow["Username"].ToString() == textBox5.Text)
-                {
-                    MessageBox.Show("Username nhân viên đã bị trùng");
-                    check = true;
-                }
+                MessageBox.Show("Hãy nhập thông tin hợp lệ");
             }
-            if (check == false)
+            else
             {
-                try
+                bool check = false;
+                foreach (DataRow dataRow in NhanViens.Rows)
                 {
-                    NhanViens.Rows.Add(textBox5.Text, textBox6.Text, textBox1.Text, textBox4.Text, textBox2.Text, comboBox1.Text, textBox3.Text);
-                    MessageBox.Show("Thêm thông tin nhân viên thành công");
-                    saveNVJson();
-                } catch
+                    if (dataRow["Username"].ToString() == textBox5.Text)
+                    {
+                        MessageBox.Show("Username nhân viên đã bị trùng");
+                        check = true;
+                    }
+                }
+                if (check == false)
                 {
-                    MessageBox.Show("Thêm thông tin nhân viên không thành công","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    try
+                    {
+                        NhanViens.Rows.Add(textBox5.Text, textBox6.Text, textBox1.Text, textBox4.Text, textBox2.Text, comboBox1.Text, textBox3.Text);
+                        MessageBox.Show("Thêm thông tin nhân viên thành công");
+                        saveNVJson();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Thêm thông tin nhân viên không thành công", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
@@ -134,32 +149,39 @@ namespace QL_Cafe
         //Sửa thông tin nhân viên
         private void button2_Click(object sender, EventArgs e)
         {
-            bool check = false;
-            foreach (DataRow dataRow in NhanViens.Rows)
+            if (textBox1.Text == "" || textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text  == "" || textBox6.Text == "")
             {
-                if (dataRow["Username"].ToString() == textBox5.Text)
+                MessageBox.Show("Hãy nhập thông tin hợp lệ");
+            }
+            else
+            {
+                bool check = false;
+                foreach (DataRow dataRow in NhanViens.Rows)
                 {
-                    try
+                    if (dataRow["Username"].ToString() == textBox5.Text)
                     {
-                        dataRow["Password"] =  textBox6.Text;
-                        dataRow["Name"] = textBox1.Text;
-                        dataRow["ID"] = textBox4.Text;
-                        dataRow["PhoneNumber"] =  textBox2.Text;
-                        dataRow["Gender"] =  comboBox1.Text;
-                        dataRow["YearOfBirth"] = textBox3.Text;
-                        MessageBox.Show("Sửa thông tin nhân viên thành công");
-                        check = true;
-                        saveNVJson();
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Sửa thông tin nhân viên không thành công", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        try
+                        {
+                            dataRow["Password"] =  textBox6.Text;
+                            dataRow["Name"] = textBox1.Text;
+                            dataRow["ID"] = textBox4.Text;
+                            dataRow["PhoneNumber"] =  textBox2.Text;
+                            dataRow["Gender"] =  comboBox1.Text;
+                            dataRow["YearOfBirth"] = textBox3.Text;
+                            MessageBox.Show("Sửa thông tin nhân viên thành công");
+                            check = true;
+                            saveNVJson();
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Sửa thông tin nhân viên không thành công", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
-            }
-            if (check == false)
-            {
-                MessageBox.Show("Không tìm thấy nhân viên với Username mà bạn nhập");
+                if (check == false)
+                {
+                    MessageBox.Show("Không tìm thấy nhân viên với Username mà bạn nhập");
+                }
             }
         }
 
@@ -191,43 +213,75 @@ namespace QL_Cafe
         //Thêm sản phẩm
         private void button6_Click(object sender, EventArgs e)
         {
-            bool check = false;
-            foreach (DataRow dataRow in SanPhams.Rows)
+            PhieuNhap phieuNhap = new PhieuNhap();
+            phieuNhap.ShowDialog();
+
+            DataTable phieuNhaps = new DataTable();
+            if (System.IO.File.Exists("PhieuNhaps.json"))
             {
-                if (dataRow["ID"].ToString() == textBox7.Text)
+                System.IO.StreamReader reader = new System.IO.StreamReader("PhieuNhaps.json");
+                string jsonStr = reader.ReadToEnd();
+                reader.Close();
+
+                if (jsonStr != "")
                 {
-                    MessageBox.Show("ID sản phẩm đã bị trùng");
-                    check = true;
+                    phieuNhaps = JsonConvert.DeserializeObject<DataTable>(jsonStr);
                 }
             }
-            if (check == false)
+            if (phieuNhaps.Columns.Count == 0)
             {
-                SanPhams.Rows.Add(textBox7.Text, textBox8.Text, textBox9.Text, textBox10.Text, 0);
-                MessageBox.Show("Thêm sản phẩm thành công");
-                saveSPJson();
+                phieuNhaps.Columns.Add("ID", typeof(string));
+                phieuNhaps.Columns.Add("Name", typeof(string));
+                phieuNhaps.Columns.Add("Price", typeof(string));
+                phieuNhaps.Columns.Add("Quantity", typeof(int));
             }
+
+            foreach (DataRow row in phieuNhaps.Rows)
+            {
+                bool ch = false;
+                foreach(DataRow r1 in SanPhams.Rows)
+                {
+                    if (row[0].ToString() == r1[0].ToString())
+                    {
+                        r1[3] = Convert.ToInt32(r1[3].ToString()) + Convert.ToInt32(row[3].ToString());
+                        ch = true;
+                    } 
+                }
+                if (ch == false)
+                {
+                    SanPhams.Rows.Add(row[0],row[1],row[2],row[3]);
+                }
+            }
+            System.IO.File.WriteAllText("PhieuNhaps.json", "");
         }
 
         //Sửa sản phẩm
         private void button5_Click(object sender, EventArgs e)
         {
-            bool check = false;
-            foreach(DataRow dataRow in SanPhams.Rows)
+            if (textBox8.Text == "" || textBox7.Text == "" || textBox9.Text == "" || textBox10.Text == "" || textBox1.Text  == "")
             {
-                if (dataRow["ID"].ToString() == textBox7.Text)
-                {
-                    dataRow["Name"] =  textBox8.Text;
-                    dataRow["Price"] = textBox9.Text;
-                    dataRow["Quantity"] = textBox10.Text;
-
-                    MessageBox.Show("Sửa thông tin sản phẩm thành công");
-                    check = true;
-                    saveSPJson();
-                }
+                MessageBox.Show("Hãy nhập thông tin hợp lệ");
             }
-            if (check == false)
+            else
             {
-                MessageBox.Show("Không tìm thấy sản phẩm với ID mà bạn nhập");
+                bool check = false;
+                foreach (DataRow dataRow in SanPhams.Rows)
+                {
+                    if (dataRow["ID"].ToString() == textBox7.Text)
+                    {
+                        dataRow["Name"] =  textBox8.Text;
+                        dataRow["Price"] = textBox9.Text;
+                        dataRow["Quantity"] = textBox10.Text;
+
+                        MessageBox.Show("Sửa thông tin sản phẩm thành công");
+                        check = true;
+                        saveSPJson();
+                    }
+                }
+                if (check == false)
+                {
+                    MessageBox.Show("Không tìm thấy sản phẩm với ID mà bạn nhập");
+                }
             }
         }
 
@@ -299,6 +353,15 @@ namespace QL_Cafe
             FormDangNhap formDangNhap = new FormDangNhap();
             formDangNhap.Closed += (s, args) => this.Close();
             formDangNhap.Show();
+        }
+
+        private void setDoanhThu()
+        {
+            foreach (DataRow row in DoanhThu.Rows)
+            {
+               tongDoanhThu += Convert.ToInt32(row[2].ToString());
+            }
+            label15.Text = tongDoanhThu.ToString() + "đ";
         }
     }
 }

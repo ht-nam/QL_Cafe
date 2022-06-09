@@ -45,7 +45,7 @@ namespace QL_Cafe
             DataTable dtHoaDon = new DataTable();
             CreateHDtable(dtHoaDon);
         }
-        public void CreateHDtable(DataTable dt)
+        public void CreateHDtable(DataTable dtHoaDon)
         {
             if (System.IO.File.Exists("HoaDons.json"))
             {
@@ -55,17 +55,18 @@ namespace QL_Cafe
 
                 if (jsonStr != "")
                 {
-                    dt = JsonConvert.DeserializeObject<DataTable>(jsonStr);
+                    dtHoaDon = JsonConvert.DeserializeObject<DataTable>(jsonStr);
                 }
             }
-            if (dt.Columns.Count == 0)
+            if (dtHoaDon.Columns.Count == 0)
             {
-                dt.Columns.Add("ID", typeof(string));
-                dt.Columns.Add("TotalPrice", typeof(int));
-                dt.Columns.Add("Date", typeof(string));
+                dtHoaDon.Columns.Add("ID", typeof(string));
+                dtHoaDon.Columns.Add("IDNV", typeof(string));
+                dtHoaDon.Columns.Add("TotalPrice", typeof(int));
+                dtHoaDon.Columns.Add("Date", typeof(string));
             }
-            dt.Rows.Add("HD" + (dt.Rows.Count + 1).ToString(), money, DateTime.Now.ToString());
-            string jsonStr1 = JsonConvert.SerializeObject(dt);
+            dtHoaDon.Rows.Add("HD" + (dtHoaDon.Rows.Count + 1).ToString(), FormDangNhap.passingText, money, DateTime.Now.ToString());
+            string jsonStr1 = JsonConvert.SerializeObject(dtHoaDon);
             System.IO.File.WriteAllText("HoaDons.json", jsonStr1);
             
         }
