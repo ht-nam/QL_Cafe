@@ -77,9 +77,29 @@ namespace QL_Cafe
                         }
                         else
                         {
-                            selectedSP.Rows.Add(row["ID"],row["Name"], row["Price"], numericUpDown1.Value.ToString());
-                            row["Quantity"] = Convert.ToInt32(row["Quantity"].ToString()) - Convert.ToInt32(numericUpDown1.Value.ToString());
-                            
+                            if (selectedSP.Rows.Count == 0)
+                            {
+                                selectedSP.Rows.Add(row["ID"], row["Name"], row["Price"], numericUpDown1.Value.ToString());
+                                row["Quantity"] = Convert.ToInt32(row["Quantity"].ToString()) - Convert.ToInt32(numericUpDown1.Value.ToString());                             
+                            } else
+                            {
+                                bool ch = false;
+                                foreach (DataRow r1 in selectedSP.Rows)
+                                {
+                                    if (r1["ID"].ToString() == ID)
+                                    {
+                                        row["Quantity"] = Convert.ToInt32(row["Quantity"].ToString()) - Convert.ToInt32(numericUpDown1.Value.ToString());
+                                        r1["QTT"] = Convert.ToInt32(r1["QTT"].ToString()) + Convert.ToInt32(numericUpDown1.Value.ToString());
+                                        ch = true;
+                                    }
+                                }
+                                if (ch == false)
+                                {
+                                    selectedSP.Rows.Add(row["ID"], row["Name"], row["Price"], numericUpDown1.Value.ToString());
+                                    row["Quantity"] = Convert.ToInt32(row["Quantity"].ToString()) - Convert.ToInt32(numericUpDown1.Value.ToString());
+                                }
+                            }
+
                             dataGridView1.DataSource = sanPham;
                             dataGridView2.DataSource = selectedSP;
                             numericUpDown1.Value = 0;
