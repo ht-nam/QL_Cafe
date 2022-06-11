@@ -273,16 +273,11 @@ namespace QL_Cafe
         //Sửa sản phẩm
         private void button5_Click(object sender, EventArgs e)
         {
-            /*if (textBox8.Text == "" || textBox7.Text == "" || textBox9.Text == "" || textBox10.Text == "" || textBox1.Text  == "")
+            if (textBox8.Text == "" || textBox7.Text == "" || textBox9.Text == "" || textBox10.Text == "" )
             {
-                MessageBox.Show(textBox8.Text);
-                MessageBox.Show(textBox7.Text);
-                MessageBox.Show(textBox9.Text);
-                MessageBox.Show(textBox10.Text);
-                MessageBox.Show(textBox1.Text);
                 MessageBox.Show("Hãy nhập thông tin hợp lệ");
-            }*/
-            if (textBox8.Text != "" || textBox7.Text != "" || textBox9.Text != "" || textBox10.Text != "" || textBox1.Text != "")
+            }
+            else
             {
                 bool check = false;
                 foreach (DataRow dataRow in SanPhams.Rows)
