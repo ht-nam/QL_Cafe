@@ -142,6 +142,7 @@ namespace QL_Cafe
                     {
                         NhanViens.Rows.Add(textBox5.Text, textBox6.Text, textBox1.Text, textBox4.Text, textBox2.Text, comboBox1.Text, textBox3.Text);
                         MessageBox.Show("Thêm thông tin nhân viên thành công");
+                        emptyText();
                         saveNVJson();
                     }
                     catch
@@ -168,15 +169,19 @@ namespace QL_Cafe
                     {
                         try
                         {
-                            dataRow["Password"] =  textBox6.Text;
-                            dataRow["Name"] = textBox1.Text;
-                            dataRow["ID"] = textBox4.Text;
-                            dataRow["PhoneNumber"] =  textBox2.Text;
-                            dataRow["Gender"] =  comboBox1.Text;
-                            dataRow["YearOfBirth"] = textBox3.Text;
-                            MessageBox.Show("Sửa thông tin nhân viên thành công");
-                            check = true;
-                            saveNVJson();
+                            DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý sửa thông tin nhân viên này", "Thông báo", MessageBoxButtons.YesNo);
+                            if (dialogResult == DialogResult.Yes)
+                            {
+                                dataRow["Password"] = textBox6.Text;
+                                dataRow["Name"] = textBox1.Text;
+                                dataRow["ID"] = textBox4.Text;
+                                dataRow["PhoneNumber"] = textBox2.Text;
+                                dataRow["Gender"] = comboBox1.Text;
+                                dataRow["YearOfBirth"] = textBox3.Text;
+                                MessageBox.Show("Sửa thông tin nhân viên thành công");
+                                check = true;
+                                saveNVJson();
+                            }
                         }
                         catch
                         {
@@ -200,9 +205,13 @@ namespace QL_Cafe
                 if (NhanViens.Rows[i]["Username"].ToString() == textBox5.Text)
                 {
                     try { check = true;
-                        NhanViens.Rows.RemoveAt(i);
-                        MessageBox.Show("Xóa thông tin nhân viên thành công");
-                        saveNVJson();
+                        DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý xóa nhân viên này", "Thông báo", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            NhanViens.Rows.RemoveAt(i);
+                            MessageBox.Show("Xóa thông tin nhân viên thành công");
+                            saveNVJson();
+                        }
                     }
                     catch
                     {
@@ -264,24 +273,33 @@ namespace QL_Cafe
         //Sửa sản phẩm
         private void button5_Click(object sender, EventArgs e)
         {
-            if (textBox8.Text == "" || textBox7.Text == "" || textBox9.Text == "" || textBox10.Text == "" || textBox1.Text  == "")
+            /*if (textBox8.Text == "" || textBox7.Text == "" || textBox9.Text == "" || textBox10.Text == "" || textBox1.Text  == "")
             {
+                MessageBox.Show(textBox8.Text);
+                MessageBox.Show(textBox7.Text);
+                MessageBox.Show(textBox9.Text);
+                MessageBox.Show(textBox10.Text);
+                MessageBox.Show(textBox1.Text);
                 MessageBox.Show("Hãy nhập thông tin hợp lệ");
-            }
-            else
+            }*/
+            if (textBox8.Text != "" || textBox7.Text != "" || textBox9.Text != "" || textBox10.Text != "" || textBox1.Text != "")
             {
                 bool check = false;
                 foreach (DataRow dataRow in SanPhams.Rows)
                 {
                     if (dataRow["ID"].ToString() == textBox7.Text)
                     {
-                        dataRow["Name"] =  textBox8.Text;
-                        dataRow["Price"] = textBox9.Text;
-                        dataRow["Quantity"] = textBox10.Text;
+                        DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý sửa sản phẩm này", "Thông báo", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            dataRow["Name"] = textBox8.Text;
+                            dataRow["Price"] = textBox9.Text;
+                            dataRow["Quantity"] = textBox10.Text;
 
-                        MessageBox.Show("Sửa thông tin sản phẩm thành công");
-                        check = true;
-                        saveSPJson();
+                            MessageBox.Show("Sửa thông tin sản phẩm thành công");
+                            check = true;
+                            saveSPJson();
+                        }
                     }
                 }
                 if (check == false)
@@ -299,10 +317,14 @@ namespace QL_Cafe
             {
                 if (SanPhams.Rows[i]["ID"].ToString() == textBox7.Text)
                 {
-                    check = true;
-                    SanPhams.Rows.RemoveAt(i);
-                    MessageBox.Show("Xóa thông tin sản phẩm thành công");
-                    saveSPJson();
+                    DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý xóa sản phẩm này", "Thông báo", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        check = true;
+                        SanPhams.Rows.RemoveAt(i);
+                        MessageBox.Show("Xóa thông tin sản phẩm thành công");
+                        saveSPJson();
+                    }
                 }
             }
             if (check == false)
@@ -425,6 +447,16 @@ namespace QL_Cafe
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             dateTimePicker2_ValueChanged(dateTimePicker2, null);
+        }
+
+        private void emptyText()
+        {
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+            textBox6.Text = "";
         }
     }
 }

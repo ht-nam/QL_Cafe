@@ -55,7 +55,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(550, 377);
-            this.dataGridView1.TabIndex = 18;
+            this.dataGridView1.TabIndex = 7;
             // 
             // label14
             // 
@@ -83,7 +83,7 @@
             this.textBox7.Location = new System.Drawing.Point(601, 125);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(143, 26);
-            this.textBox7.TabIndex = 39;
+            this.textBox7.TabIndex = 1;
             // 
             // label11
             // 
@@ -121,7 +121,7 @@
             this.textBox10.Location = new System.Drawing.Point(601, 177);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(298, 26);
-            this.textBox10.TabIndex = 35;
+            this.textBox10.TabIndex = 3;
             // 
             // textBox9
             // 
@@ -129,7 +129,7 @@
             this.textBox9.Location = new System.Drawing.Point(750, 125);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(149, 26);
-            this.textBox9.TabIndex = 34;
+            this.textBox9.TabIndex = 2;
             // 
             // textBox8
             // 
@@ -137,7 +137,7 @@
             this.textBox8.Location = new System.Drawing.Point(601, 74);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(298, 26);
-            this.textBox8.TabIndex = 33;
+            this.textBox8.TabIndex = 0;
             // 
             // button6
             // 
@@ -145,7 +145,7 @@
             this.button6.Location = new System.Drawing.Point(653, 311);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(200, 35);
-            this.button6.TabIndex = 30;
+            this.button6.TabIndex = 5;
             this.button6.Text = "Thêm sản phẩm";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
@@ -156,7 +156,7 @@
             this.button4.Location = new System.Drawing.Point(653, 393);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(200, 35);
-            this.button4.TabIndex = 32;
+            this.button4.TabIndex = 6;
             this.button4.Text = "Lưu phiếu nhập";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
@@ -177,7 +177,7 @@
             this.textBox1.Location = new System.Drawing.Point(601, 229);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(298, 26);
-            this.textBox1.TabIndex = 41;
+            this.textBox1.TabIndex = 4;
             // 
             // PhieuNhap
             // 

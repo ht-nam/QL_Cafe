@@ -59,6 +59,7 @@ namespace QL_Cafe
                 if (check == false)
                 {
                     phieuNhaps.Rows.Add(textBox7.Text, textBox8.Text, textBox9.Text, textBox10.Text);
+                    emptyText();
                     MessageBox.Show("Thêm sản phẩm thành công");
                 } }
         }
@@ -67,14 +68,26 @@ namespace QL_Cafe
         {
             if (phieuNhaps.Rows.Count > 0)
             {
-                string jsonStr = JsonConvert.SerializeObject(phieuNhaps);
-                System.IO.File.WriteAllText("PhieuNhaps.json", jsonStr);
-                MessageBox.Show("Lưu phiếu nhập thành công");
+                DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý lưu phiếu nhập", "Thông báo", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    string jsonStr = JsonConvert.SerializeObject(phieuNhaps);
+                    System.IO.File.WriteAllText("PhieuNhaps.json", jsonStr);
+                    MessageBox.Show("Lưu phiếu nhập thành công");
+                }
             }
             else
             {
                 MessageBox.Show("Lưu phiếu không thành công");
             }
+        }
+        private void emptyText()
+        {
+            textBox1.Text = "";
+            textBox8.Text = "";
+            textBox10.Text = "";
+            textBox7.Text = "";
+            textBox9.Text = "";
         }
     }
 }
