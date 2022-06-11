@@ -16,19 +16,21 @@ namespace QL_Cafe
         private DataTable NhanViens = new DataTable();
         private DataTable SanPhams = new DataTable();
         private DataTable DoanhThu = new DataTable();
+        private DataTable DoanhThuFilter = new DataTable();
         NhanVien nv = new NhanVien();
-        private int tongDoanhThu = 0;
+        
 
         public QuanLy()
         {
             InitializeComponent();
+            panel1.Hide();
             CreateNVtable();
             CreateSPtable();
             CreateDTTable();
             dataGridView1.DataSource = NhanViens;
             dataGridView2.DataSource = SanPhams;
             dataGridView3.DataSource = DoanhThu;
-            setDoanhThu();
+            setDoanhThu(DoanhThu);
             
         }
 
@@ -94,10 +96,14 @@ namespace QL_Cafe
             if (SanPhams.Columns.Count == 0)
             {
                 DoanhThu.Columns.Add("ID", typeof(string));
-                DoanhThu.Columns.Add("Name", typeof(string));
-                DoanhThu.Columns.Add("Price", typeof(string));
-                DoanhThu.Columns.Add("Quantity", typeof(int));
+                DoanhThu.Columns.Add("IDVN", typeof(string));
+                DoanhThu.Columns.Add("TotalPrice", typeof(int));
+                DoanhThu.Columns.Add("Date", typeof(string));
             }
+            DoanhThuFilter.Columns.Add("ID", typeof(string));
+            DoanhThuFilter.Columns.Add("IDVN", typeof(string));
+            DoanhThuFilter.Columns.Add("TotalPrice", typeof(int));
+            DoanhThuFilter.Columns.Add("Date", typeof(string));
         }
 
         private void saveNVJson()
@@ -355,13 +361,70 @@ namespace QL_Cafe
             formDangNhap.Show();
         }
 
-        private void setDoanhThu()
+        private void setDoanhThu(DataTable dt)
         {
-            foreach (DataRow row in DoanhThu.Rows)
+            int tongDoanhThu = 0;
+            foreach (DataRow row in dt.Rows)
             {
                tongDoanhThu += Convert.ToInt32(row[2].ToString());
             }
             label15.Text = tongDoanhThu.ToString() + "đ";
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                panel1.Hide();
+                dataGridView3.DataSource =DoanhThu;
+                setDoanhThu(DoanhThu);
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.Checked)
+            {
+                panel1.Show();
+                dateTimePicker2_ValueChanged(dateTimePicker2, null);
+            }
+        }
+        public void CreateDTFilterTable(DateTime a, DateTime b)
+        {
+            
+
+            foreach (DataRow row in DoanhThu.Rows)
+            {
+                string[] dL = row[3].ToString().Split(' ')[0].ToString().Split('/');
+                DateTime c = new DateTime(Convert.ToInt32(dL[2]),Convert.ToInt32(dL[1]),Convert.ToInt32(dL[0]));
+
+                if (c >= a && c <= b)
+                {
+                    //MessageBox.Show()
+                    DoanhThuFilter.Rows.Add(row[0],row[1],row[2],row[3]);
+                }
+            }
+        }
+
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+            DoanhThuFilter.Rows.Clear();
+            DateTime a = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day);
+            DateTime b = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day);
+            if (b >= a)
+            {
+                CreateDTFilterTable(a, b);
+                dataGridView3.DataSource = DoanhThuFilter;
+                setDoanhThu(DoanhThuFilter);
+            } else
+            {
+                MessageBox.Show("Khoảng thời gian không hợp lệ");
+            }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            dateTimePicker2_ValueChanged(dateTimePicker2, null);
         }
     }
 }

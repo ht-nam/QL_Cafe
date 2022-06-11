@@ -35,7 +35,7 @@ namespace QL_Cafe
 
         private void XuatHoaDon_Load(object sender, EventArgs e)
         {
-            label7.Text = DateTime.Now.ToString();
+            label7.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             tenNV.Text = FormDangNhap.passingText;
         }
 
