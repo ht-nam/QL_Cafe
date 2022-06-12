@@ -15,22 +15,21 @@ namespace QL_Cafe
         public static bool button1WasClicked = false;
         private DataTable sanPham = new DataTable();
         private DataTable selectedSP = new DataTable();
+        private DataTable thanhVien = new DataTable();
         //private DataTable hoaDon
         private string ID = "";
         public NhanVien()
         {
             InitializeComponent();
             CreateSPtable();
+            CreateTVtable();
             dataGridView1.DataSource = sanPham;
             dataGridView1.Columns[0].Visible = false;
             dataGridView2.DataSource = selectedSP;
+            dataGridView3.DataSource = thanhVien;
 
             dataGridView2.AutoGenerateColumns = false;
             dataGridView2.Columns[0].Visible = false;
-
-            //Thêm đoạn code này sau khi xuất hóa đơn để lưu dữ liệu
-            //string jsonStr = JsonConvert.SerializeObject(sanPham);
-            //System.IO.File.WriteAllText("SanPhams.json", jsonStr);
         }
 
         public void CreateSPtable()
@@ -57,6 +56,30 @@ namespace QL_Cafe
                 sanPham.Columns.Add("Name", typeof(string));
                 sanPham.Columns.Add("Price", typeof(string));
                 sanPham.Columns.Add("Quantity", typeof(int));
+            }
+        }
+
+        public void CreateTVtable()
+        {
+
+            if (System.IO.File.Exists("ThanhViens.json"))
+            {
+                System.IO.StreamReader reader = new System.IO.StreamReader("ThanhViens.json");
+                string jsonStr = reader.ReadToEnd();
+                reader.Close();
+
+                if (jsonStr != "")
+                {
+                    thanhVien = JsonConvert.DeserializeObject<DataTable>(jsonStr);
+                }
+            }
+            if (thanhVien.Columns.Count == 0)
+            {
+                thanhVien.Columns.Add("IDcard", typeof(string));
+                thanhVien.Columns.Add("Name", typeof(string));
+                thanhVien.Columns.Add("ID", typeof(string));
+                thanhVien.Columns.Add("Phone", typeof(string));
+                thanhVien.Columns.Add("BirthDay", typeof(string));
             }
         }
 
@@ -173,14 +196,31 @@ namespace QL_Cafe
             }
             else
             {
-                DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý xuất hóa đơn", "Thông báo", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                bool idCheck = false;
+
+                foreach(DataRow row in thanhVien.Rows)
                 {
-                    XuatHoaDon xhd = new XuatHoaDon(dataGridView2, selectedSP);
-                    xhd.ShowDialog();
-                    selectedSP.Rows.Clear();
-                    string jsonStr = JsonConvert.SerializeObject(sanPham);
-                    System.IO.File.WriteAllText("SanPhams.json", jsonStr);
+                    if (row["IDcard"].ToString() == textBoxID.Text && textBoxID.Text != "")
+                    {
+                        idCheck = true;
+                        break;
+                    }
+                }
+
+                if (idCheck == true || textBoxID.Text == "")
+                {
+                    DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý xuất hóa đơn", "Thông báo", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        XuatHoaDon xhd = new XuatHoaDon(dataGridView2, selectedSP, textBoxID.Text);
+                        xhd.ShowDialog();
+                        selectedSP.Rows.Clear();
+                        string jsonStr = JsonConvert.SerializeObject(sanPham);
+                        System.IO.File.WriteAllText("SanPhams.json", jsonStr);
+                    }
+                } else if(idCheck == false)
+                {
+                    MessageBox.Show("Mã thẻ thành viên không hợp lệ");
                 }
             }
         }
@@ -191,6 +231,144 @@ namespace QL_Cafe
             FormDangNhap formDangNhap = new FormDangNhap();
             formDangNhap.Closed += (s, args) => this.Close();
             formDangNhap.Show();
+        }
+
+        private void emptyText()
+        {
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            dateTimePicker1.Value = new DateTime(2000,1,1);
+        }
+
+        private void saveTVJson()
+        {
+            string jsonStr = JsonConvert.SerializeObject(thanhVien);
+            System.IO.File.WriteAllText("ThanhViens.json", jsonStr);
+        }
+
+
+        //Them the thanh vien
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text == "" || textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "")
+            {
+                MessageBox.Show("Hãy nhập thông tin hợp lệ");
+            }
+            else
+            {
+                bool check = false;
+                foreach (DataRow dataRow in thanhVien.Rows)
+                {
+                    if (dataRow["IDcard"].ToString() == textBox4.Text)
+                    {
+                        MessageBox.Show("Mã thẻ đã bị trùng");
+                        check = true;
+                    }
+                }
+                if (check == false)
+                {
+                    try
+                    {
+                        thanhVien.Rows.Add(textBox4.Text, textBox1.Text, textBox3.Text, textBox2.Text, dateTimePicker1.Value.ToString("dd/MM/yyyy"));
+                        MessageBox.Show("Thêm thông tin thẻ thành công");
+                        emptyText();
+                        saveTVJson();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Thêm thông tin thẻ không thành công", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+
+        //Sua the thanh vien
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text == "" || textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "")
+            {
+                MessageBox.Show("Hãy nhập thông tin hợp lệ");
+            }
+            else
+            {
+                bool check = false;
+                foreach (DataRow dataRow in thanhVien.Rows)
+                {
+                    if (dataRow["IDcard"].ToString() == textBox4.Text)
+                    {
+                        try
+                        {
+                            DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý sửa thẻ này", "Thông báo", MessageBoxButtons.YesNo);
+                            if (dialogResult == DialogResult.Yes)
+                            {
+                                dataRow["Name"] = textBox1.Text;
+                                dataRow["ID"] = textBox3.Text;
+                                dataRow["Phone"] = textBox2.Text;
+                                dataRow["BirthDay"] = dateTimePicker1.Value.ToString("dd/MM/yyyy");
+                                MessageBox.Show("Sửa thông tin thẻ thành công");
+                                check = true;
+                                saveTVJson();
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Sửa thẻ không thành công", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                if (check == false)
+                {
+                    MessageBox.Show("Không tìm thẻ id mà bạn nhập");
+                }
+            }
+        }
+
+
+        //Xoa the thanh vien
+        private void button3_Click(object sender, EventArgs e)
+        {
+            bool check = false;
+            for (int i = 0; i < thanhVien.Rows.Count; i++)
+            {
+                if (thanhVien.Rows[i]["IDcard"].ToString() == textBox4.Text)
+                {
+                    try
+                    {
+                        check = true;
+                        DialogResult dialogResult = MessageBox.Show("Bạn có đồng ý xóa thẻ này", "Thông báo", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            thanhVien.Rows.RemoveAt(i);
+                            MessageBox.Show("Xóa thẻ thành công");
+                            saveTVJson();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Xóa thẻ không thành công", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            if (check == false)
+            {
+                MessageBox.Show("Không tìm thấy thẻ với id mà bạn nhập");
+            }
+        }
+
+        private void dataGridView3_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            textBox4.Text = dataGridView3.SelectedCells[0].OwningRow.Cells[0].Value.ToString();
+            textBox1.Text = dataGridView3.SelectedCells[0].OwningRow.Cells[1].Value.ToString();
+            textBox3.Text = dataGridView3.SelectedCells[0].OwningRow.Cells[2].Value.ToString();
+            textBox2.Text = dataGridView3.SelectedCells[0].OwningRow.Cells[3].Value.ToString();
+
+            string[] dL = dataGridView3.SelectedCells[0].OwningRow.Cells[4].Value.ToString().Split('/');
+            dateTimePicker1.Value = new DateTime(Convert.ToInt32(dL[2]), Convert.ToInt32(dL[1]), Convert.ToInt32(dL[0]));
+            
+            
         }
     }
 }

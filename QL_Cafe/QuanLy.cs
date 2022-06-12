@@ -102,6 +102,7 @@ namespace QL_Cafe
             }
             DoanhThuFilter.Columns.Add("ID", typeof(string));
             DoanhThuFilter.Columns.Add("IDVN", typeof(string));
+            DoanhThuFilter.Columns.Add("MemberID", typeof(string));
             DoanhThuFilter.Columns.Add("TotalPrice", typeof(int));
             DoanhThuFilter.Columns.Add("Date", typeof(string));
         }
@@ -383,7 +384,7 @@ namespace QL_Cafe
             int tongDoanhThu = 0;
             foreach (DataRow row in dt.Rows)
             {
-               tongDoanhThu += Convert.ToInt32(row[2].ToString());
+               tongDoanhThu += Convert.ToInt32(row[3].ToString());
             }
             label15.Text = tongDoanhThu.ToString() + "đ";
         }
@@ -412,13 +413,13 @@ namespace QL_Cafe
 
             foreach (DataRow row in DoanhThu.Rows)
             {
-                string[] dL = row[3].ToString().Split(' ')[0].ToString().Split('/');
+                string[] dL = row[4].ToString().Split(' ')[0].ToString().Split('/');
                 DateTime c = new DateTime(Convert.ToInt32(dL[2]),Convert.ToInt32(dL[1]),Convert.ToInt32(dL[0]));
 
                 if (c >= a && c <= b)
                 {
                     //MessageBox.Show()
-                    DoanhThuFilter.Rows.Add(row[0],row[1],row[2],row[3]);
+                    DoanhThuFilter.Rows.Add(row[0],row[1],row[2],row[3],row[4]);
                 }
             }
         }

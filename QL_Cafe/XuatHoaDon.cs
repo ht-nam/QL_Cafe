@@ -14,8 +14,10 @@ namespace QL_Cafe
     {
         private DataTable dt = new DataTable();
         private int money = 0;
-        public XuatHoaDon(DataGridView dataGridView, DataTable dataTable)
+        private string IDKH = "";
+        public XuatHoaDon(DataGridView dataGridView, DataTable dataTable, string id)
         {
+            IDKH = id;
             InitializeComponent();
             dataGridView1.DataSource = dataGridView.DataSource;
             dt = dataTable;
@@ -27,9 +29,21 @@ namespace QL_Cafe
 
         public void totalAmountOfMoney()
         {
+            if(IDKH == "")
+            {
+                label8.Text = "";
+            } else
+            {
+                label8.Text += IDKH;
+            }
+
             foreach (DataRow row in dt.Rows)
             {
                 money += Convert.ToInt32(row["QTT"].ToString()) * Convert.ToInt32(row["Price"].ToString());
+            }
+            if (IDKH != "")
+            {
+                money = money * 9 / 10;
             }
         }
 
@@ -62,10 +76,11 @@ namespace QL_Cafe
             {
                 dtHoaDon.Columns.Add("ID", typeof(string));
                 dtHoaDon.Columns.Add("IDNV", typeof(string));
+                dtHoaDon.Columns.Add("MemberID", typeof(string));
                 dtHoaDon.Columns.Add("TotalPrice", typeof(int));
                 dtHoaDon.Columns.Add("Date", typeof(string));
             }
-            dtHoaDon.Rows.Add("HD" + (dtHoaDon.Rows.Count + 1).ToString(), FormDangNhap.passingText, money, DateTime.Now.ToString());
+            dtHoaDon.Rows.Add("HD" + (dtHoaDon.Rows.Count + 1).ToString(), FormDangNhap.passingText, IDKH, money, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
             string jsonStr1 = JsonConvert.SerializeObject(dtHoaDon);
             System.IO.File.WriteAllText("HoaDons.json", jsonStr1);
             
